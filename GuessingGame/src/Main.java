@@ -11,10 +11,24 @@ public class Main {
         System.out.println("Would you like to play a game? y/n...  ");  //Output text for the user with instructions
         String answer = sc.nextLine();                                  //Take in new string info from user
 
-        do{                                                             //do-while loop to run as long as user selects y
-            System.out.println("Test");                                 //prints "Test"
-            System.out.println("Enter a value: ");                      //Asks for a new string
+        while(answer.equals("y")){                                     //while loop to run as long as user selects y
+            int numToGuess = ran.nextInt(10) + 1;               //create new random number
+            int user_guess = 0;
+
+            do{
+                System.out.print("What do you think the number is?...");
+                user_guess = sc.nextInt();
+                if(user_guess > numToGuess){
+                    System.out.println("Too high");
+                }else if(user_guess < numToGuess){
+                    System.out.println("Too low");
+                }else{
+                    break;
+                }
+            }while(user_guess != numToGuess);
+
+            System.out.println("Would you like to play again? y/n...");                      //Asks for a new string
             answer = sc.nextLine();                                     //user decides to play again or not
-        }while(answer.equals("y"));                                     //loops again or closes it out.
+        }
     }
 }
