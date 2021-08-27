@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Random;
 
 public class GUI extends JFrame {
@@ -23,7 +25,7 @@ public class GUI extends JFrame {
         panel.add(textBox);
          */
 
-        JTextField box = new JTextField("This is the box");
+        JTextField box = new JTextField("Click on New Game button to begin");
         panel.add(box);
 
         JButton guessButton = new JButton("Guess");
@@ -39,7 +41,41 @@ public class GUI extends JFrame {
         JButton newGameButton = new JButton("New Game");
         panel.add(newGameButton);
 
-       // closeButton.addActionListener();
+        closeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.exit(0);
+            }
+        });
+
+        newGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                counter = 0;
+                randomNumber = rand.nextInt(10) + 1;
+                box.setText("");
+            }
+        });
+
+        guessButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int tempNumber = Integer.parseInt(box.getText());
+                if(tempNumber == randomNumber){
+                    counter++;
+                    box.setText("You got it right in " + counter + " tries!!!");
+                }else{
+                   // counterLabel.setText("Number of guesses so far..." + counter);
+                    if(tempNumber > randomNumber){
+                        counterLabel.setText("Too High");
+                    }else{
+                        counterLabel.setText("Too Low");
+                    }
+                    box.setText("");
+                    counter++;
+                }
+            }
+        });
 
         add(panel);
         setVisible(true);
