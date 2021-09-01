@@ -5,20 +5,20 @@ public class Vehicle {
     }
 
     public  void sound(){
-        System.out.println("Vroom");
+        System.out.println("The sound made is 'Vroom'");
     }
 }
 
 class Import extends Vehicle{
 
     public void sound(){
-        System.out.println("Expensive");
+        System.out.println("The sound made is 'Expensive'");
     }
 }
 
 class locallyMade extends Vehicle{
 
     public void size(int height){
-        System.out.println("The vehicle is " + height + "tall");
+        System.out.println("The vehicle is " + height + " tall");
     }
 }
