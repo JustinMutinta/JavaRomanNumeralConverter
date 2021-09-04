@@ -7,16 +7,24 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println("Test");
-        int testNumber = 8;
+        int testNumber = 888;
         int testDecidingNumber = 1;
 
-        System.out.println(romanValue(testNumber, testDecidingNumber));
+        //System.out.println(romanValue(testNumber, testDecidingNumber));
+
+        System.out.println(finalCal(testNumber));
     }
 
 
     public static String finalCal(int userNumber){
         String output = "";
+        int decidingNumber = 1000;
 
+        while(decidingNumber > 0){
+            output += romanValue(userNumber, decidingNumber);
+            userNumber %= decidingNumber;
+            decidingNumber = decidingNumber / 10;
+        }
 
         return output;
     }
