@@ -1,16 +1,25 @@
+import java.util.Scanner;
+
 public class Main {
 
-    public static String oneThousand = "M";
-    public static String nineHundred = "CM";  public static String fiveHundred = "D";   public static String fourHundred = "CD";  public static String oneHundred = "C";
-    public static String ninety = "XC";       public static String fifty = "L";         public static String forty = "XL";        public static String ten = "X";
-    public static String nine = "IX";         public static String five = "V";          public static String four = "IV";         public static String one = "I";
+
+    public static String[][] romanArray =   {{"M"},                     //1000
+                                            {"CM", "D", "CD", "C"},     //900, 500, 400, 100
+                                            {"XC", "L", "XL", "X"},     //90, 50, 40, 10
+                                            {"IX", "V", "IV", "I"}};    //9, 5, 4, 1
+
 
     public static void main(String[] args) {
-        System.out.println("Test");
-        int testNumber = 888;
-        int testDecidingNumber = 1;
+        System.out.println("Convert a number to roman numerals.\nKindy enter a number between 1 and 4999");
+        Scanner sc = new Scanner(System.in);
 
-        //System.out.println(romanValue(testNumber, testDecidingNumber));
+        int testNumber = sc.nextInt();
+
+        while(testNumber <= 4999){
+            System.out.println(finalCal(testNumber));
+            System.out.println("Enter another number: ");
+            testNumber = sc.nextInt();
+        }
 
         System.out.println(finalCal(testNumber));
     }
@@ -21,7 +30,11 @@ public class Main {
         int decidingNumber = 1000;
 
         while(decidingNumber > 0){
-            output += romanValue(userNumber, decidingNumber);
+            if(userNumber > 4999){
+                System.out.println("Can't convert that number...yet.\nGood bye");
+                break;
+            }
+            output += romanValue1(userNumber, decidingNumber);
             userNumber %= decidingNumber;
             decidingNumber = decidingNumber / 10;
         }
@@ -29,88 +42,54 @@ public class Main {
         return output;
     }
 
-    public static String romanValue(int userNumber, int decidingnumber){
+    public static String romanValue1(int userNumber, int decidingNumber){
         String output = "";
-        int tempNum = 0;
-
+        int array1 = 0;
+        int array2 = 0;
         if(userNumber >= 1000){
-            tempNum = userNumber/decidingnumber;
-            if(tempNum == 1){
-                output += oneThousand;
-            }else{
-                for(int i = 0; i < tempNum; i++){
-                    output += oneThousand;
-                }
+            array1 = 0;
+            array2 = 0;
+            for(int i = 0; i < userNumber/decidingNumber; i++){
+                output += romanArray[array1][0];
             }
+            userNumber %= 1000;
         }else if(userNumber >= 100){
-            tempNum = userNumber/decidingnumber;
-            if(tempNum == 9){
-                output += nineHundred;
-            }else if(tempNum == 5){
-                output += fiveHundred;
-            }else if(tempNum == 4){
-                output += fourHundred;
-            }else if(tempNum == 1){
-                output += oneHundred;
-            }else if(tempNum > 5 && tempNum < 9){
-                output += fiveHundred;
-                tempNum -= 5;
-                for(int i = 0; i < tempNum; i++){
-                    output += oneHundred;
-                }
-            }else{
-                for(int i = 0; i < tempNum; i++){
-                    output += oneHundred;
-                }
+            array1 = 1;
+        }else if(userNumber >= 10){
+            array1 = 2;
+        }else{
+            array1 = 3;
+        }
+
+        int tempNum = 0;
+        tempNum = userNumber/decidingNumber;
+        if(tempNum == 9){
+            output += romanArray[array1][0];
+        }else if(tempNum == 5){
+            output += romanArray[array1][1];
+        }else if(tempNum == 4){
+            output += romanArray[array1][2];
+        }else if(tempNum == 1){
+            output += romanArray[array1][3];
+        }else if(tempNum > 5 && tempNum < 9){
+            output += romanArray[array1][1];
+            tempNum -= 5;
+            for(int i = 0; i < tempNum; i++){
+                output += romanArray[array1][3];
             }
-        }else if(userNumber >= 10) {
-            tempNum = userNumber / decidingnumber;
-            if (tempNum == 9) {
-                output += ninety;
-            } else if (tempNum == 5) {
-                output += fifty;
-            } else if (tempNum == 4) {
-                output += forty;
-            } else if (tempNum == 1) {
-                output += ten;
-            } else if (tempNum > 5 && tempNum < 9) {
-                output += fifty;
-                tempNum -= 5;
-                for (int i = 0; i < tempNum; i++) {
-                    output += ten;
-                }
-            } else {
-                for (int i = 0; i < tempNum; i++) {
-                    output += ten;
-                }
-            }
-        }else {
-            tempNum = userNumber / decidingnumber;
-            if (tempNum == 9) {
-                output += nine;
-            } else if (tempNum == 5) {
-                output += five;
-            } else if (tempNum == 4) {
-                output += four;
-            } else if (tempNum == 1) {
-                output += one;
-            } else if (tempNum > 5 && tempNum < 9) {
-                output += five;
-                tempNum -= 5;
-                for (int i = 0; i < tempNum; i++) {
-                    output += one;
-                }
-            } else {
-                for (int i = 0; i < tempNum; i++) {
-                    output += one;
-                }
+        }else{
+            for(int i = 0; i < tempNum; i++){
+                output += romanArray[array1][3];
             }
         }
 
         return output;
     }
 
-}
+
+    }
+
+
 
 /*
 Take input from user. Between 1 and 4999
