@@ -3,21 +3,24 @@ import java.util.Scanner;
 public class Main {
 
 
-    public static String[][] romanArray =   {{"M"},                     //1000
-                                            {"CM", "D", "CD", "C"},     //900, 500, 400, 100
-                                            {"XC", "L", "XL", "X"},     //90, 50, 40, 10
-                                            {"IX", "V", "IV", "I"}};    //9, 5, 4, 1
+    public static String[][] romanArray =   {{"\u1e40"+"\u1e40"+"\u1e40"+"\u1e40"+"\u1e40"+"\u1e40"+"\u1e40"+"\u1e40"+"\u1e40", "\u1e40"+"\u1e40"+"\u1e40"+"\u1e40"+"\u1e40", "\u1e40"+"\u1e40"+"\u1e40"+"\u1e40", "\u1e40"}, //9M, 5M, 4M, 1M
+                                            {"\u010a"+"\u1e40", "\u1e0a", "\u010a"+"\u1e0a", "\u010a"},     //900K, 500K, 400K, 100K
+                                            {"\u1e8a"+"\u010a", "\u1e38", "\u1e8a"+"\u1e38", "\u1e8a"},    //90,000 , 50,000, 40,000, 10,000
+                                            {"M"+"\u1e8a", "\u1e7c", "M"+"\u1e7c", "M"},       //9000, 5000, 4000, 1000
+                                            {"CM", "D", "CD", "C"},         //900, 500, 400, 100
+                                            {"XC", "L", "XL", "X"},         //90, 50, 40, 10
+                                            {"IX", "V", "IV", "I"}};        //9, 5, 4, 1
 
 
     public static void main(String[] args) {
-        System.out.println("Convert a number to roman numerals.\nKindy enter a number between 1 and 4999");
+        System.out.println("Convert a number to roman numerals, or enter '0' to quit:  ");
         Scanner sc = new Scanner(System.in);
 
         int testNumber = sc.nextInt();
 
-        while(testNumber <= 4999){
+        while(testNumber != 0){
             System.out.println(finalCal(testNumber));
-            System.out.println("Enter another number: ");
+            System.out.println("Enter another number, or enter '0' to quit:   ");
             testNumber = sc.nextInt();
         }
 
@@ -27,13 +30,9 @@ public class Main {
 
     public static String finalCal(int userNumber){
         String output = "";
-        int decidingNumber = 1000;
+        int decidingNumber = 1_000_000;
 
-        while(decidingNumber > 0){
-            if(userNumber > 4999){
-                System.out.println("Can't convert that number...yet.\nGood bye");
-                break;
-            }
+        while(decidingNumber != 0){
             output += romanValue1(userNumber, decidingNumber);
             userNumber %= decidingNumber;
             decidingNumber = decidingNumber / 10;
@@ -46,19 +45,20 @@ public class Main {
         String output = "";
         int array1 = 0;
         int array2 = 0;
-        if(userNumber >= 1000){
+        if(userNumber >= 1_000_000){
             array1 = 0;
-            array2 = 0;
-            for(int i = 0; i < userNumber/decidingNumber; i++){
-                output += romanArray[array1][0];
-            }
-            userNumber %= 1000;
-        }else if(userNumber >= 100){
+        }else if(userNumber >= 100_000){
             array1 = 1;
-        }else if(userNumber >= 10){
+        }else if(userNumber >= 10_000){
             array1 = 2;
-        }else{
+        }else if(userNumber >= 1000){
             array1 = 3;
+        }else if(userNumber >= 100){
+            array1 = 4;
+        }else if(userNumber >= 10){
+            array1 = 5;
+        }else{
+            array1 = 6;
         }
 
         int tempNum = 0;
@@ -87,23 +87,4 @@ public class Main {
     }
 
 
-    }
-
-
-
-/*
-Take input from user. Between 1 and 4999
-Divide by 1000.
-    If result is 1 - 4, then return value of M * number
-Divide by 100.
-    If result is 1, 4, 5, 9 then return C, CD, D, CM
-    All others, add C.
-    But then what about numbers between 5 and 9?
-    if statement---get value of 5 and remainder is then * C.
-Then divide by 10.
-    If result is 1, 4, 5, 9 then return X, XL, L, XC
-    if value between 1 and 4, then simply * X
-    if statement for between 5 and 9. Add related value and then multiply remainder by X. for example LX for 60
-Then divide by 1.
-    If result is 1, 4, 5, 9 then return I, IV, V, IX
- */
+}
